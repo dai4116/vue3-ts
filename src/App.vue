@@ -1,31 +1,70 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+import UserCard from '@/components/UserCard.vue'
+import Card from '@/components/Card.vue'
+import '@/assets/styles/main.css'
+  
+const users = ref([
+  { id: 1, name: 'Daisy', role: 'Admin', isVip: true },
+  { id: 2, name: 'Mimi', role: 'Member', isVip: false },
+])
+
+const toggleRole = (id: number) => {
+  const user = users.value.find(u => u.id === id)
+  if (user) {
+    user.role = user.role === 'Admin' ? 'Member' : 'Admin'
+  }
+}
+
+const onConfirm = () => {
+  alert('確認！')
+}
+
+const onCancel = () => {
+  alert('取消！')
+}
 </script>
 
 <template>
-  <!-- <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div> -->
-  <!-- <HelloWorld msg="Vite + Vue" /> -->
-  <router-view />
+   <nav>
+      <router-link to="/">首頁</router-link> |
+      <router-link to="/about">關於我們</router-link> |
+      <router-link to="/product">產品</router-link>
+    </nav>
+
+    <router-view />
+
+  <div class="container">
+    <UserCard
+      v-for="user in users"
+      :key="user.id"
+      :name="user.name"
+      :role="user.role"
+      :isVip="user.isVip"
+      @toggle-role="toggleRole(user.id)"
+    />
+  </div>
+
+  <Card @confirm="onConfirm" @cancel="onCancel">
+    <template #header>
+      <h2>操作卡片</h2>
+    </template>
+
+    <p>點擊下方按鈕來觸發父層事件</p>
+  </Card>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+nav {
+  padding: 10px;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+router-link {
+  margin-right: 8px;
 }
 </style>
