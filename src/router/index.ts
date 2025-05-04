@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import From from '../components/From.vue'
 import Test from '../components/Test.vue'
 
+import PiniaTest from '@/components/PiniaTest.vue'
 import Home from '@/views/Home.vue'
 import Product from '@/views/Product.vue'
 import { defineAsyncComponent } from 'vue'
@@ -17,6 +18,7 @@ const routes = [
   { path: '/test', component: Test },
   { path: '/from', component: From },
   { path: '/about', component: About },
+  { path: '/piniaTest', component: PiniaTest },
   { path: '/product', component: Product },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/views/NotFound.vue') },
 
